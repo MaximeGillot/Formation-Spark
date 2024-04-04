@@ -1,9 +1,7 @@
 package fr.example.formation.sparkSql;
 
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.RowFactory;
-import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.*;
+import org.apache.spark.sql.api.java.UDF1;
 import org.apache.spark.sql.expressions.UserDefinedFunction;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
@@ -79,6 +77,22 @@ public class FonctionsAvanceesSparkSql {
                 "FROM client JOIN paysClient ON client.id = paysClient.id group by paysClient.pays");
 
         result.show(false);
+
+        // Udf avec parametre
+
+        UserDefinedFunction plus5Ans = udf(
+                (UDF1<Integer, Integer>) age -> age + 5, DataTypes.IntegerType
+        );
+
+        spark.udf().register("plus5Ans", plus5Ans);
+        spark.sql("SELECT id, name, age , plus5Ans(age) as agePlus5Ans from client").show();
+
+        // UDF avec l'api dataframe
+        clientDf
+                .withColumn(
+                        "age plus 5 ans",
+                        functions.callUDF("plus5Ans", new Column("age"))
+                ).show();
 
         // Fermer la SparkSession
         spark.stop();
