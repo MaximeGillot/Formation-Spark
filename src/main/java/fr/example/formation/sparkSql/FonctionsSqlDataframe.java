@@ -1,12 +1,18 @@
 package fr.example.formation.sparkSql;
 
-import org.apache.spark.sql.*;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
 import java.util.List;
+
+import static org.apache.spark.sql.functions.current_date;
+import static org.apache.spark.sql.functions.uuid;
 
 public class FonctionsSqlDataframe {
     public static void main(String[] args) {
@@ -31,9 +37,13 @@ public class FonctionsSqlDataframe {
         );
 
         testDataDF
-                .withColumn("UUID", functions.uuid())
-                .withColumn("dateDuJour", functions.current_date())
+                .withColumn("UUID", uuid())
+                .withColumn("dateDuJour", current_date())
                 .show();
+
+        testDataDF.createOrReplaceTempView("test");
+
+        spark.sql("select *, current_date() as date from test ").show();
 
         // Fermer la SparkSession
         spark.stop();
