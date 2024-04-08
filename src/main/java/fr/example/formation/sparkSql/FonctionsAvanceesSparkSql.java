@@ -62,18 +62,14 @@ public class FonctionsAvanceesSparkSql {
 
         result.show();
 
-        /*
-         * Utilisation des UDF et fonction SQL
-         * https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/functions.html
-         */
-
         UserDefinedFunction random = udf(
                 () -> UUID.randomUUID().toString(), DataTypes.StringType
         );
 
+        random.asNondeterministic();
         spark.udf().register("randomUUID", random);
 
-        result = spark.sql("SELECT randomUUID() as uuid, current_date() as date, paysClient.pays, SUM(client.age) AS ageTotal, AVG(client.age) AS ageMoyen " +
+        result = spark.sql("SELECT randomUUID() as uuid, paysClient.pays, SUM(client.age) AS ageTotal, AVG(client.age) AS ageMoyen " +
                 "FROM client JOIN paysClient ON client.id = paysClient.id group by paysClient.pays");
 
         result.show(false);
@@ -86,6 +82,7 @@ public class FonctionsAvanceesSparkSql {
 
         spark.udf().register("plus5Ans", plus5Ans);
         spark.sql("SELECT id, name, age , plus5Ans(age) as agePlus5Ans from client").show();
+        spark.sql("SELECT id, name, age from client where plus5Ans(age) > 50").show();
 
         // UDF avec l'api dataframe
         clientDf
