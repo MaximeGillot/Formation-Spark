@@ -12,7 +12,7 @@ import org.apache.spark.sql.types.StructType;
 import java.util.List;
 
 import static org.apache.spark.sql.functions.current_date;
-import static org.apache.spark.sql.functions.uuid;
+//import static org.apache.spark.sql.functions.uuid;
 
 public class FonctionsSqlDataframe {
     public static void main(String[] args) {
@@ -37,7 +37,7 @@ public class FonctionsSqlDataframe {
         );
 
         testDataDF
-                .withColumn("UUID", uuid())
+              //  .withColumn("UUID", uuid())
                 .withColumn("dateDuJour", current_date())
                 .show();
 
