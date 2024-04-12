@@ -12,8 +12,8 @@ import java.util.Arrays;
 import java.util.concurrent.TimeoutException;
 
 /**
- * https://spark.apache.org/docs/latest/streaming-programming-guide.html
- * https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
+ * <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html">...</a>
+ * <a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html">...</a>
  * Depuis wsl : nc -lk 9999
  */
 public class IntroductionSparkStream {
@@ -27,7 +27,7 @@ public class IntroductionSparkStream {
 
         Dataset<Row> lines = spark
                 .readStream()
-                .format("socket")
+                .format("kafka")
                 .option("host", "localhost")
                 .option("port", 9999)
                 .load();

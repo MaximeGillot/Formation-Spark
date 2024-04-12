@@ -9,7 +9,7 @@ import org.apache.spark.sql.streaming.StreamingQueryException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * https://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html
+ * <a href="https://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html">...</a>
  * Ajouter la dependence kafka dans le pom
  * kafka 0.10 minimum
  */

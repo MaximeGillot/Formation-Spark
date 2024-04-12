@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.concurrent.TimeoutException;
 
 /**
- * https://spark.apache.org/docs/latest/streaming-programming-guide.html
- * https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
+ * <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html">...</a>
+ * <a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html">...</a>
  * Depuis wsl : nc -lk 9999
  */
 public class SparkStreamUnsupportedFunction {
@@ -39,13 +39,14 @@ public class SparkStreamUnsupportedFunction {
                 .flatMap((FlatMapFunction<String, String>) x -> Arrays.asList(x.split(" ")).iterator(), Encoders.STRING());
 
 
-        /**
+        /*
          * org.apache.spark.sql.AnalysisException: Complete output mode not supported
          * when there are no streaming aggregations on streaming DataFrames/Datasets;
          */
-       /* words = words.distinct();
 
-        StreamingQuery query = words.writeStream()
+        // words = words.distinct();
+
+       /* StreamingQuery query = words.writeStream()
                 .outputMode(OutputMode.Complete())
                 .format("console")
                 .start();*/
@@ -57,14 +58,14 @@ public class SparkStreamUnsupportedFunction {
         // limit + update = unsupported
         // wordCounts = wordCounts.limit(1);
 
-        /**
+        /*
          * Exception in thread "main" org.apache.spark.sql.AnalysisException:
          * Queries with streaming sources must be executed with writeStream.start();
          * foreach() - Instead use ds.writeStream.foreach(...)
          */
         // wordCounts.foreach((ForeachFunction<Row>) System.out::println);
 
-        /**
+        /*
          *Exception in thread "main" org.apache.spark.sql.AnalysisException:
          *  Queries with streaming sources must be executed with writeStream.start();
          *  show() - Instead use the console sink
@@ -74,7 +75,6 @@ public class SparkStreamUnsupportedFunction {
         StreamingQuery query = wordCounts.writeStream()
                 .outputMode(OutputMode.Complete())
                 .format("console")
-
                 .start();
 
 

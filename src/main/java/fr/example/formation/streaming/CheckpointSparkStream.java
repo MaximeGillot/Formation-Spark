@@ -10,9 +10,8 @@ import org.apache.spark.sql.types.StructType;
 import java.util.concurrent.TimeoutException;
 
 /**
- * https://spark.apache.org/docs/latest/streaming-programming-guide.html
- * https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
- *
+ * <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html">...</a>
+ * <a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html">...</a>
  */
 public class CheckpointSparkStream {
     public static void main(String[] args) throws StreamingQueryException, TimeoutException {
@@ -46,7 +45,7 @@ public class CheckpointSparkStream {
                         .sql("select count(*) as nbLigne from updates")
                         .writeStream()
                         .outputMode("complete")
-                        //  .option("checkpointLocation", "src/main/resources/java/streaming/csvSparkStream/checkpoint")
+                        .option("checkpointLocation", "src/main/resources/java/streaming/csvSparkStream/checkpoint")
                         .queryName("stream csv")
                         .format("console")
                         .start();

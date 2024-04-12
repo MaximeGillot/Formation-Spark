@@ -1,9 +1,11 @@
 package fr.example.formation.streaming.kafka;
 
-import org.apache.spark.sql.*;
+import org.apache.spark.sql.Column;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.streaming.StreamingQuery;
 import org.apache.spark.sql.streaming.StreamingQueryException;
-import org.apache.spark.sql.types.StructType;
 
 import java.util.concurrent.TimeoutException;
 
@@ -35,16 +37,10 @@ public class ParsedDataSparkStreamKafka {
                 .option("includeHeaders", "true")
                 .load();
 
-        StructType clientSchema = new StructType()
-                .add("name", "string")
-                .add("age", "string");
-
-        // binaire -> string -> json struct -> flatten
         Dataset<Row> parsedData =
                 rawData
-                        .withColumn("json", new Column("value").cast("string")) // cast du binaire en string
-                        .withColumn("data", functions.from_json(new Column("json"), clientSchema)) // cast du string en json (struct)
-                        .select("*", "data.*"); // flatten structure
+                        .withColumn("keyString", new Column("key").cast("string")) // cast du binaire en string
+                        .withColumn("valueString", new Column("value").cast("string")); // cast du binaire en string
 
         StreamingQuery query = parsedData.writeStream()
                 .outputMode("update")
