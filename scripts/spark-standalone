@@ -1,0 +1,30 @@
+Doc :
+
+Spark submit : https://spark.apache.org/docs/latest/submitting-applications.html
+Spark standalone: https://spark.apache.org/docs/latest/spark-standalone.html
+
+========================================
+
+
+power shell
+
+cd 'E:\Big_Data\Cours Spark\Install Spark\spark-3.5.1-bin-hadoop3'
+
+sur linux -> sbin/start master
+
+sur windows :
+
+./bin/spark-class.cmd  org.apache.spark.deploy.master.Master
+
+./bin/spark-class org.apache.spark.deploy.worker.Worker spark://192.168.1.12:7077
+
+Spark shell :
+
+.\spark-shell --master spark://192.168.1.12:7077
+
+
+==============================
+Spark submit:
+
+
+cd 'C:\Users\mamax49\IdeaProjects\FormationSpark\target'
