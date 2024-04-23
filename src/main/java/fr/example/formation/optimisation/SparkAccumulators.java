@@ -6,6 +6,7 @@ import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.util.DoubleAccumulator;
 import org.apache.spark.util.LongAccumulator;
+import scala.Function1;
 
 import java.util.Arrays;
 
@@ -17,7 +18,7 @@ public class SparkAccumulators {
         // Créer une SparkSession
         SparkSession spark = SparkSession
                 .builder()
-                .appName("DataFrameCreation")
+                .appName("SparkAccumulators")
                 .master("local[*]")
                 .getOrCreate();
 
@@ -44,19 +45,17 @@ public class SparkAccumulators {
         System.out.println("age moyen : " + nbAge.avg());
         System.out.println("somme age : " + nbAge.sum());
 
-
-
-     /*   LongAccumulator testLazyEvaluation = spark.sparkContext().longAccumulator();
+        LongAccumulator testLazyEvaluation = spark.sparkContext().longAccumulator();
 
         longDS.map((Function1<Long, Long>) x -> {
             testLazyEvaluation.add(1);
             return x;
         }, longEncoders);
 
-        System.out.println("value à 0 ?: " + testLazyEvaluation.value());*/
+        System.out.println("value à 0 ?: " + testLazyEvaluation.value());
 
 
-        //  Thread.sleep(1000000l);
+        Thread.sleep(1000000l);
         // Fermer la SparkSession
         spark.stop();
     }
