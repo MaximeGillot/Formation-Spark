@@ -31,7 +31,6 @@ public class SparkStreamJoining {
                 .option("sep", ";")
                 .schema(site1Schema)      // Specify schema of the csv files
                 .csv("src/main/resources/java/streaming/join/site1")
-                .withWatermark("time", "1 minutes")
                 .withColumnRenamed("name", "nameSite1")
                 .withColumnRenamed("time", "timeSite1");
 
@@ -67,7 +66,6 @@ public class SparkStreamJoining {
                         .format("console")
                         .start();
 
-
-        query.awaitTermination();
+        spark.streams().awaitAnyTermination();
     }
 }
